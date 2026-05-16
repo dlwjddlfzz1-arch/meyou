@@ -24,26 +24,31 @@ if (savedTheme === 'dark') {
     themeBtn.textContent = '화이트 모드';
 }
 
-// Form Submission Handling
-consultForm.addEventListener('submit', (e) => {
+// Form Submission Handling (Formspree Integration)
+consultForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
+    const formData = new FormData(consultForm);
     
-    // In a real application, you would send this data to a server
-    console.log('Consultation Request:', { name, phone });
-    
-    // Show success message
-    consultForm.classList.add('hidden');
-    successMsg.classList.remove('hidden');
-    
-    // Optional: Reset form after some time and show it again
-    /*
-    setTimeout(() => {
-        consultForm.reset();
-        consultForm.classList.remove('hidden');
-        successMsg.classList.add('hidden');
-    }, 5000);
-    */
+    try {
+        const response = await fetch(consultForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Show success message
+            consultForm.classList.add('hidden');
+            successMsg.classList.remove('hidden');
+            console.log('Consultation Request Sent Successfully');
+        } else {
+            alert('문제가 발생했습니다. 다시 시도해 주세요.');
+        }
+    } catch (error) {
+        console.error('Submission Error:', error);
+        alert('네트워크 오류가 발생했습니다.');
+    }
 });
