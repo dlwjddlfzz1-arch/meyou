@@ -87,19 +87,66 @@
     <!-- Section 5: The End / Comment -->
     <section class="panel final-panel" id="panel-5">
         <div class="content-wrapper">
-            <h2 class="section-title">여정의 끝에서,<br>당신의 이야기를 <strong>기다립니다.</strong></h2>
+            <h2 class="section-title">
+                여정의 끝에서,<br>
+                당신의 이야기를 <strong>기다립니다.</strong>
+            </h2>
+
             <form id="consult-form" class="minimal-form">
-                <input type="text" name="name" placeholder="당신의 이름 또는 닉네임" required>
-                <textarea name="comment" placeholder="나누고 싶은 생각이나 궁금한 점을 적어주세요." required></textarea>
-                <button type="submit" class="minimal-btn">이야기 남기기</button>
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="name"
+                    placeholder="당신의 이름 또는 닉네임" 
+                    required
+                >
+
+                <textarea 
+                    name="comment" 
+                    id="comment"
+                    placeholder="나누고 싶은 생각이나 궁금한 점을 적어주세요." 
+                    required
+                ></textarea>
+
+                <button type="submit" class="minimal-btn">
+                    이야기 남기기
+                </button>
             </form>
-            <div id="success-msg" class="hidden">정중히 기록되었습니다. 감사합니다.</div>
+
+            <div id="success-msg" class="hidden">
+                정중히 기록되었습니다. 감사합니다.
+            </div>
         </div>
+
         <footer class="minimal-footer">
             &copy; 2026. 우리보듬. 모든 시작은 소중합니다.
         </footer>
     </section>
 
     <script src="main.js"></script>
+    <script>
+    document.getElementById("consult-form").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const comment = document.getElementById("comment").value;
+
+        // 입력값을 포함하여 구글 시트 주소 생성 (사용자 요청 방식)
+        const sheetURL =
+            "https://docs.google.com/spreadsheets/d/1VRODLYA7VrHkzNWWdNIHovLRiDmPWTZczC2Ns4a4wH0/edit?usp=sharing"
+            + "&name=" + encodeURIComponent(name)
+            + "&comment=" + encodeURIComponent(comment);
+
+        // 구글시트 새 탭 열기
+        window.open(sheetURL, "_blank");
+
+        // 성공 메시지 표시
+        document.getElementById("consult-form").classList.add("hidden");
+        document.getElementById("success-msg").classList.remove("hidden");
+
+        // 폼 초기화
+        document.getElementById("consult-form").reset();
+    });
+    </script>
 </body>
 </html>
