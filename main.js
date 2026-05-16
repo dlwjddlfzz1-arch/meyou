@@ -30,21 +30,17 @@ consultForm.addEventListener('submit', async (e) => {
     
     const submitBtn = consultForm.querySelector('.submit-btn');
     const originalBtnText = submitBtn.textContent;
-    const emailTo = 'dlwjddlfzz2@naver.com';
     
     submitBtn.disabled = true;
     submitBtn.textContent = '전송 중...';
     
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
+    const formData = new FormData(consultForm);
     
     try {
-        // Formspree API Endpoint (corrected format)
-        const response = await fetch(`https://formspree.io/f/mqakppov`, { // 이 ID는 임시 ID입니다. 직접 이메일 주소를 넣는 것보다 안전합니다.
+        const response = await fetch(consultForm.action, {
             method: 'POST',
-            body: JSON.stringify({ name, phone }),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
@@ -53,16 +49,18 @@ consultForm.addEventListener('submit', async (e) => {
             consultForm.classList.add('hidden');
             successMsg.classList.remove('hidden');
         } else {
-            throw new Error('전송 실패');
+            const data = await response.json();
+            if (data.errors) {
+                alert(data.errors.map(error => error.message).join(", "));
+            } else {
+                alert('전송에 실패했습니다. 이메일 인증이 완료되었는지 확인해 주세요.');
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
         }
     } catch (error) {
         console.error('Error:', error);
-        // Fallback: 이메일 전송이 실패할 경우, 사용자의 메일 앱을 열어주는 안전장치
-        if (confirm('온라인 전송에 문제가 발생했습니다. 확인을 누르시면 메일 작성 창을 통해 신청하실 수 있습니다.')) {
-            const subject = encodeURIComponent('[상담 신청] 태아보험 가이드');
-            const bodyContent = encodeURIComponent(`성함: ${name}\n연락처: ${phone}`);
-            window.location.href = `mailto:${emailTo}?subject=${subject}&body=${bodyContent}`;
-        }
+        alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
         submitBtn.disabled = false;
         submitBtn.textContent = originalBtnText;
     }
