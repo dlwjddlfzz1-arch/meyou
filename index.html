@@ -1,17 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>우리아이 첫 선물 - 태아보험 가이드</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Lotto Number Generator</h1>
-        <div class="lotto-numbers" id="lotto-numbers"></div>
-        <button id="generate-btn">Generate Numbers</button>
-    </div>
+    <header>
+        <nav class="navbar">
+            <div class="logo">우리보듬</div>
+            <div class="theme-toggle">
+                <button id="theme-btn">다크 모드</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>우리 아이를 위한<br>첫 번째 선물, <strong>태아보험</strong></h1>
+                <p>소중한 내 아이의 건강한 미래를 위해 지금 준비하세요.</p>
+                <a href="#consultation" class="cta-primary">무료 상담 신청하기</a>
+            </div>
+        </section>
+
+        <section class="education">
+            <div class="container">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>태아보험이란?</h3>
+                        <p>임신 중에 가입하여 출생 후 자녀에게 발생할 수 있는 선천성 이상, 저체중아 서비스, 질병 및 사고 등을 보장하는 보험입니다.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>왜 필요한가요?</h3>
+                        <p>환경 변화로 인한 선천성 질환 증가와 고령 임신으로 인한 위험에 대비하여 경제적 부담을 줄이고 적절한 치료를 받기 위함입니다.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>가입 적기는?</h3>
+                        <p>보통 <strong>임신 22주 이내</strong>에 가입해야 태아 특약 보장을 온전하게 받을 수 있는 '골든 타임'을 놓치지 마세요.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="consultation" class="consultation">
+            <div class="container">
+                <h2>맞춤 전문가 상담 신청</h2>
+                <p>전문가가 직접 연락하여 가장 적합한 상품을 설계해 드립니다.</p>
+                <form id="consult-form">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="성함" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" placeholder="연락처 (- 없이 입력)" required>
+                    </div>
+                    <button type="submit" class="submit-btn">상담 신청하기</button>
+                </form>
+                <div id="success-msg" class="hidden">상담 신청이 완료되었습니다! 곧 연락드리겠습니다.</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 우리보듬. All rights reserved.</p>
+            <p class="disclaimer">본 페이지는 태아보험에 대한 일반적인 정보를 제공하며, 실제 가입 시 약관을 반드시 확인하시기 바랍니다.</p>
+        </div>
+    </footer>
+
     <script src="main.js"></script>
 </body>
 </html>
