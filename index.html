@@ -77,7 +77,7 @@
                     <div class="faq-content">보통 임신 22주 이내를 권장하지만, 건강검진 전 미리 준비하는 것이 가장 현명합니다.</div>
                 </div>
                 <div class="faq-row">
-                    <button class="faq-toggle">보험료가 너무 부담되면 어쩌죠?</p></button>
+                    <button class="faq-toggle">보험료가 너무 부담되면 어쩌죠?</button>
                     <div class="faq-content">꼭 필요한 보장 위주로 다이어트 설계를 하면 충분히 합리적인 가격으로 시작할 수 있습니다.</div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                 당신의 이야기를 <strong>기다립니다.</strong>
             </h2>
 
-            <form id="consult-form" class="minimal-form">
+            <form id="consult-form" action="https://formspree.io/f/mqakppov" method="POST" class="minimal-form">
                 <input 
                     type="text" 
                     name="name" 
@@ -124,29 +124,5 @@
     </section>
 
     <script src="main.js"></script>
-    <script>
-    document.getElementById("consult-form").addEventListener("submit", function(e){
-        e.preventDefault();
-
-        const name = document.getElementById("name").value;
-        const comment = document.getElementById("comment").value;
-
-        // 입력값을 포함하여 구글 시트 주소 생성 (사용자 요청 방식)
-        const sheetURL =
-            "https://docs.google.com/spreadsheets/d/1VRODLYA7VrHkzNWWdNIHovLRiDmPWTZczC2Ns4a4wH0/edit?usp=sharing"
-            + "&name=" + encodeURIComponent(name)
-            + "&comment=" + encodeURIComponent(comment);
-
-        // 구글시트 새 탭 열기
-        window.open(sheetURL, "_blank");
-
-        // 성공 메시지 표시
-        document.getElementById("consult-form").classList.add("hidden");
-        document.getElementById("success-msg").classList.remove("hidden");
-
-        // 폼 초기화
-        document.getElementById("consult-form").reset();
-    });
-    </script>
 </body>
 </html>
