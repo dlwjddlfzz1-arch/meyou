@@ -24,45 +24,45 @@ if (savedTheme === 'dark') {
     themeBtn.textContent = '화이트 모드';
 }
 
-// Form Submission Handling (Formspree Integration)
+// Form Submission Handling
 consultForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const submitBtn = consultForm.querySelector('.submit-btn');
     const originalBtnText = submitBtn.textContent;
+    const emailTo = 'dlwjddlfzz2@naver.com';
     
-    // Disable button to prevent multiple submissions
     submitBtn.disabled = true;
     submitBtn.textContent = '전송 중...';
     
-    const formData = new FormData(consultForm);
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
     
     try {
-        const response = await fetch(consultForm.action, {
+        // Formspree API Endpoint (corrected format)
+        const response = await fetch(`https://formspree.io/f/mqakppov`, { // 이 ID는 임시 ID입니다. 직접 이메일 주소를 넣는 것보다 안전합니다.
             method: 'POST',
-            body: formData,
+            body: JSON.stringify({ name, phone }),
             headers: {
+                'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
 
-        const result = await response.json();
-
         if (response.ok) {
-            // Show success message
             consultForm.classList.add('hidden');
             successMsg.classList.remove('hidden');
-            console.log('Consultation Request Sent Successfully');
         } else {
-            // Log server-side validation errors
-            console.error('Server Error:', result);
-            alert(result.errors ? result.errors.map(error => error.message).join(", ") : '문제가 발생했습니다. 다시 시도해 주세요.');
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalBtnText;
+            throw new Error('전송 실패');
         }
     } catch (error) {
-        console.error('Submission Error:', error);
-        alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        console.error('Error:', error);
+        // Fallback: 이메일 전송이 실패할 경우, 사용자의 메일 앱을 열어주는 안전장치
+        if (confirm('온라인 전송에 문제가 발생했습니다. 확인을 누르시면 메일 작성 창을 통해 신청하실 수 있습니다.')) {
+            const subject = encodeURIComponent('[상담 신청] 태아보험 가이드');
+            const bodyContent = encodeURIComponent(`성함: ${name}\n연락처: ${phone}`);
+            window.location.href = `mailto:${emailTo}?subject=${subject}&body=${bodyContent}`;
+        }
         submitBtn.disabled = false;
         submitBtn.textContent = originalBtnText;
     }
