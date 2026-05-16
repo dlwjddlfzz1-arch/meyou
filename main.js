@@ -28,6 +28,13 @@ if (savedTheme === 'dark') {
 consultForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    const submitBtn = consultForm.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.textContent;
+    
+    // Disable button to prevent multiple submissions
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+    
     const formData = new FormData(consultForm);
     
     try {
@@ -39,16 +46,24 @@ consultForm.addEventListener('submit', async (e) => {
             }
         });
 
+        const result = await response.json();
+
         if (response.ok) {
             // Show success message
             consultForm.classList.add('hidden');
             successMsg.classList.remove('hidden');
             console.log('Consultation Request Sent Successfully');
         } else {
-            alert('문제가 발생했습니다. 다시 시도해 주세요.');
+            // Log server-side validation errors
+            console.error('Server Error:', result);
+            alert(result.errors ? result.errors.map(error => error.message).join(", ") : '문제가 발생했습니다. 다시 시도해 주세요.');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
         }
     } catch (error) {
         console.error('Submission Error:', error);
-        alert('네트워크 오류가 발생했습니다.');
+        alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
     }
 });
